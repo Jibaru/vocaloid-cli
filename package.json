@@ -1,0 +1,56 @@
+{
+  "name": "@jibaru/vocaloid-cli",
+  "version": "0.1.0",
+  "description": "Agent-first CLI to compose VOCALOID-style songs and render them headlessly (OpenUtau/DiffSinger), with VOCALOID project export.",
+  "license": "MIT",
+  "author": "Ignacio Rueda (Jibaru)",
+  "homepage": "https://github.com/Jibaru/vocaloid-cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jibaru/vocaloid-cli.git"
+  },
+  "type": "module",
+  "bin": {
+    "vocaloid": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "bun build src/cli.ts --target node --outfile dist/cli.js --banner '#!/usr/bin/env node' && chmod +x dist/cli.js",
+    "dev": "bun src/cli.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run typecheck && bun run build && bun test"
+  },
+  "keywords": [
+    "vocaloid",
+    "openutau",
+    "diffsinger",
+    "cli",
+    "agent",
+    "music"
+  ],
+  "dependencies": {
+    "@tonejs/midi": "^2.0.28",
+    "commander": "^15.0.0",
+    "fast-xml-parser": "^5.11.2",
+    "fflate": "^0.8.3",
+    "tonal": "^6.5.0",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.6"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.3",
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
