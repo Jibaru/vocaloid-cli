@@ -124,3 +124,4 @@ case file at the end (cli-build Phase 6).
 - **`tonal` types:** 6.5.0 points `types` to a file it does not ship (see the tsconfig `paths`
   workaround).
 - `engine/build.sh` failed on a fresh clone with MSB3577 ("Two output file names resolved to the same output path: OpenUtau.Core.Resources.resources"). First guess (a global `-p:TreatWarningsAsErrors=false`) was wrong: removing it changed nothing. Real cause: macOS `mktemp -d` returns `/var/...`, a symlink to `/private/var/...`, and MSBuild resolves the three `Resources.resx` DependentUpon paths inconsistently under it. Fixed with `pwd -P` and building from inside the repo. A manual build in a non-symlinked dir had masked it.
+- `--progress json` first emitted one NDJSON line per network chunk: 19,457 lines for the 550 MB voice download. Throttled to one event per whole percent per task (plus the final one).

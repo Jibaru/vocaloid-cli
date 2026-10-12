@@ -21,9 +21,15 @@ export interface ProgressEvent {
 }
 
 let lastDraw = 0;
+const lastPercent = new Map<string, number>();
 
 export function progress(ev: ProgressEvent): void {
   if (mode === "json") {
+    // At most one event per task per whole percent (plus the first and last): a 550 MB download
+    // would otherwise stream ~20k lines into the agent's context.
+    const pct = ev.total ? Math.floor((ev.done / ev.total) * 100) : ev.done;
+    if (lastPercent.get(ev.task) === pct && !(ev.total !== undefined && ev.done >= ev.total)) return;
+    lastPercent.set(ev.task, pct);
     process.stderr.write(`${JSON.stringify({ event: "progress", ...ev })}\n`);
     return;
   }
